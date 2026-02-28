@@ -2778,6 +2778,16 @@ class TestInvalidFD(unittest.TestCase):
         self.check(os.pathconf, "PC_NAME_MAX")
         self.check(os.fpathconf, "PC_NAME_MAX")
 
+    @unittest.skipUnless(hasattr(os, 'fpathconf'), 'test needs os.fpathconf()')
+    def test_fpathconf_negative_fd(self):
+        for f in (os.fpathconf, os.pathconf):
+            with self.subTest(f=f):
+                with self.assertRaisesRegex(ValueError, "file descriptor cannot be negative"):
+                    f(-1, "PC_NAME_MAX")
+                with self.assertRaisesRegex(ValueError, "file descriptor cannot be negative"):
+                    f(-2, "PC_NAME_MAX")
+
+
     @unittest.skipUnless(hasattr(os, 'ftruncate'), 'test needs os.ftruncate()')
     def test_ftruncate(self):
         self.check(os.truncate, 0)

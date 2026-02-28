@@ -10452,8 +10452,7 @@ os_fpathconf(PyObject *module, PyObject *const *args, Py_ssize_t nargs)
     if (!_PyArg_CheckPositional("fpathconf", nargs, 2, 2)) {
         goto exit;
     }
-    fd = PyObject_AsFileDescriptor(args[0]);
-    if (fd < 0) {
+    if (!fpathconf_fd_converter(args[0], &fd)) {
         goto exit;
     }
     if (!conv_confname(module, args[1], &name, "pathconf_names")) {
@@ -13611,4 +13610,4 @@ exit:
 #ifndef OS__EMSCRIPTEN_LOG_METHODDEF
     #define OS__EMSCRIPTEN_LOG_METHODDEF
 #endif /* !defined(OS__EMSCRIPTEN_LOG_METHODDEF) */
-/*[clinic end generated code: output=e709b8b783fbc261 input=a9049054013a1b77]*/
+/*[clinic end generated code: output=0aec8d488043fe19 input=a9049054013a1b77]*/
